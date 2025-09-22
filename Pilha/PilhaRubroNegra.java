@@ -1,7 +1,7 @@
-import EPilhaVazia from "./EPilhaVazia.java";
 
-Public class PilhaRubroNegra {
-    
+
+public class PilhaRubroNegra {
+
     private Object[] array;
     private int capacidade;
     private int tamPilhaVermelha;
@@ -60,21 +60,21 @@ Public class PilhaRubroNegra {
 
     public int topVermelho() throws EPilhaVazia {
         if (tamPilhaVermelha == 0) {
-            throw new EPilhaVazia("Pilha Vermelha Vazia");
+            throw new EPilhaVazia();
         }
         return (int) array[tamPilhaVermelha - 1];
     }
 
     public int topPreto() throws EPilhaVazia {
         if (tamPilhaPreta == 0) {
-            throw new EPilhaVazia("Pilha Preta Vazia");
+            throw new EPilhaVazia();
         }
         return (int) array[capacidade - tamPilhaPreta];
     }
 
     public int popVermelho() throws EPilhaVazia {
         if (tamPilhaVermelha == 0) {
-            throw new EPilhaVazia("Pilha Vermelha Vazia");
+            throw new EPilhaVazia();
         }
         tamPilhaVermelha--;
         return (int) array[tamPilhaVermelha];
@@ -82,7 +82,7 @@ Public class PilhaRubroNegra {
 
     public int popPreto() throws EPilhaVazia {
         if (tamPilhaPreta == 0) {
-            throw new EPilhaVazia("Pilha Preta Vazia");
+            throw new EPilhaVazia();
         }
         int valor = (int) array[capacidade - tamPilhaPreta];
         tamPilhaPreta--;
@@ -90,8 +90,8 @@ Public class PilhaRubroNegra {
     }
 
     // TESTE
-    public class Main {
-        public static void main(String[] args) {
+    public static class Main {
+        public static void main(String[] args) throws EPilhaVazia {
             PilhaRubroNegra pilha = new PilhaRubroNegra(4);
             pilha.pushVermelho(1);
             pilha.pushVermelho(2);
