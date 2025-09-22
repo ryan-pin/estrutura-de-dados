@@ -14,23 +14,53 @@ public class PilhaRubroNegra {
         this.tamPilhaPreta = 0;
     }
 
-    public void pushVermelho(Object valor) {
-        if (tamPilhaVermelha + tamPilhaPreta >= capacidade) {
-            
-            int novaCapacidade = capacidade * 2;
-            Object[] novoArray = new Object[novaCapacidade];
-    
-            // Copia dos vermelhos
-            for (int i = 0; i < tamPilhaVermelha; i++) {
-                novoArray[i] = array[i];
-            }
+     private void aumentaCapacidade() {
+        int novaCapacidade = capacidade * 2;
+        Object[] novoArray = new Object[novaCapacidade];
 
-            // Copia dos pretos
-            for (int i = 0; i < tamPilhaPreta; i++) {
-                novoArray[novaCapacidade - 1 - i] = array[capacidade - 1 - i];
-            }
+        // Copia dos vermelhos
+        for (int i = 0; i < tamPilhaVermelha; i++) {
+            novoArray[i] = array[i];
+        }
+
+        // Copia dos pretos
+        for (int i = 0; i < tamPilhaPreta; i++) {
+            novoArray[novaCapacidade - 1 - i] = array[capacidade - 1 - i];
+        }
+
+        array = novoArray;
+        capacidade = novaCapacidade;
+    }
+
+    private void reduzCapacidade() {
+    int elementos = tamPilhaVermelha + tamPilhaPreta;
+
+    if (capacidade > elementos && elementos <= capacidade / 3) {
+        int novaCapacidade = capacidade / 2;
+        if (novaCapacidade < 1) {
+            novaCapacidade = 1;
+        }
+
+        Object[] novoArray = new Object[novaCapacidade];
+
+        // Copia dos vermelhos
+        for (int i = 0; i < tamPilhaVermelha; i++) {
+            novoArray[i] = array[i];
+        }
+
+        // Copia dos pretos
+        for (int i = 0; i < tamPilhaPreta; i++) {
+            novoArray[novaCapacidade - 1 - i] = array[capacidade - 1 - i];
+        }
+
             array = novoArray;
             capacidade = novaCapacidade;
+        }
+    }
+
+    public void pushVermelho(Object valor) {
+        if (tamPilhaVermelha + tamPilhaPreta >= capacidade) {
+            aumentaCapacidade();
         }
         array[tamPilhaVermelha] = valor;
         tamPilhaVermelha++;
@@ -38,21 +68,7 @@ public class PilhaRubroNegra {
 
     public void pushPreto(Object valor) {
         if (tamPilhaVermelha + tamPilhaPreta >= capacidade) {
-
-            int novaCapacidade = capacidade * 2;
-            Object[] novoArray = new Object[novaCapacidade];
-
-            // Copia dos vermelhos
-            for (int i = 0; i < tamPilhaVermelha; i++) {
-                novoArray[i] = array[i];
-            }
-
-            // Copia dos pretos
-            for (int i = 0; i < tamPilhaPreta; i++) {
-                novoArray[novaCapacidade - 1 - i] = array[capacidade - 1 - i];
-            }
-            array = novoArray;
-            capacidade = novaCapacidade;
+            aumentaCapacidade();
         }
         tamPilhaPreta++;
         array[capacidade - tamPilhaPreta] = valor;
@@ -77,7 +93,9 @@ public class PilhaRubroNegra {
             throw new EPilhaVazia();
         }
         tamPilhaVermelha--;
-        return (int) array[tamPilhaVermelha];
+        int valor = (int) array[tamPilhaVermelha]; // conversao de tipo
+        reduzCapacidade();
+        return valor;
     }
 
     public int popPreto() throws EPilhaVazia {
@@ -86,6 +104,7 @@ public class PilhaRubroNegra {
         }
         int valor = (int) array[capacidade - tamPilhaPreta];
         tamPilhaPreta--;
+        reduzCapacidade();
         return valor;
     }
 
