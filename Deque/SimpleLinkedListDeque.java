@@ -111,6 +111,15 @@ public class SimpleLinkedListDeque<T> {
     public int tamanho() {
         return tamanho;
     }
+
+    public void mostrar() {
+        Node current = head;
+        while (current != null) {
+            System.out.print(current.data + " -> ");
+            current = current.next;
+        }
+        System.out.println("null");
+    }
       
     // Teste
     public static void main(String[] args) {
@@ -120,6 +129,9 @@ public class SimpleLinkedListDeque<T> {
         deque.inserirFim(20);
         deque.inserirInicio(5);
         deque.inserirFim(30);
+
+        deque.mostrar();
+
         System.out.println(deque.tamanho());
         
         System.out.println(deque.primeiro());
@@ -130,6 +142,8 @@ public class SimpleLinkedListDeque<T> {
         System.out.println(deque.removerFim());
         
         System.out.println(deque.tamanho());
+
+        deque.mostrar();
 
         // O problema esta na remoção no fim, que é O(n)
         // Já que é necessário percorrer a lista para chegar ao penultimo nó e atualizar o ponteiro

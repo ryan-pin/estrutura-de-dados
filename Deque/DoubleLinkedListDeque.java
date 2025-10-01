@@ -115,6 +115,15 @@ public class DoubleLinkedListDeque<T> {
     public int tamanho() {
         return tamanho;
     }
+
+    public void mostrar() {
+        Node current = head;
+        while (current != null) {
+            System.out.print(current.data + " <-> ");
+            current = current.next;
+        }
+        System.out.println("null");
+    }
     
     
     // Teste
@@ -130,6 +139,8 @@ public class DoubleLinkedListDeque<T> {
         deque.inserirInicio(5);
         deque.inserirFim(30);
         
+        deque.mostrar();
+
         System.out.println(deque.tamanho());
         
         System.out.println(deque.primeiro());
@@ -138,6 +149,8 @@ public class DoubleLinkedListDeque<T> {
         System.out.println(deque.removerInicio());
         System.out.println(deque.removerFim());
         
+        deque.mostrar();
+
         System.out.println(deque.tamanho());
         
         // Todas as operações são O(1) em uma deque com lista duplamente ligada
