@@ -1,10 +1,10 @@
-public class SimpleLinkedListDeque<T> {
+public class SimpleLinkedListDeque {
     
     private class Node {
-        T data;
+        int data;
         Node next;
         
-        Node(T data) {
+        Node(int data) {
             this.data = data;
             this.next = null;
         }
@@ -21,7 +21,7 @@ public class SimpleLinkedListDeque<T> {
     }
     
     // Operação O(1)
-    public void inserirInicio(T item) {
+    public void inserirInicio(int item) {
         Node newNode = new Node(item);
         
         if (estaVazio()) {
@@ -34,7 +34,7 @@ public class SimpleLinkedListDeque<T> {
     }
     
     // Operação O(1) 
-    public void inserirFim(T item) {
+    public void inserirFim(int item) {
         Node newNode = new Node(item);
         
         if (estaVazio()) {
@@ -47,12 +47,12 @@ public class SimpleLinkedListDeque<T> {
     }
     
     // Operação O(1) 
-    public T removerInicio() {
+    public int removerInicio() {
         if (estaVazio()) {
             throw new RuntimeException("Deque está vazio");
         }
         
-        T data = head.data;
+        int data = head.data;
         head = head.next;
         
         if (head == null) { 
@@ -64,12 +64,12 @@ public class SimpleLinkedListDeque<T> {
     }
     
     // Operação O(n)
-    public T removerFim() {
+    public int removerFim() {
         if (estaVazio()) {
             throw new RuntimeException("Deque está vazio");
         }
         
-        T data = tail.data;
+        int data = tail.data;
         
         if (tamanho == 1) {
             head = tail = null;
@@ -87,7 +87,7 @@ public class SimpleLinkedListDeque<T> {
     }
     
     // Operação O(1)
-    public T primeiro() {
+    public int primeiro() {
         if (estaVazio()) {
             throw new RuntimeException("Deque está vazio");
         }
@@ -95,7 +95,7 @@ public class SimpleLinkedListDeque<T> {
     }
     
     // Operação O(1)
-    public T ultimo() {
+    public int ultimo() {
         if (estaVazio()) {
             throw new RuntimeException("Deque está vazio");
         }
@@ -123,7 +123,7 @@ public class SimpleLinkedListDeque<T> {
       
     // Teste
     public static void main(String[] args) {
-        SimpleLinkedListDeque<Integer> deque = new SimpleLinkedListDeque<>();
+        SimpleLinkedListDeque deque = new SimpleLinkedListDeque();
         
         deque.inserirInicio(10);
         deque.inserirFim(20);

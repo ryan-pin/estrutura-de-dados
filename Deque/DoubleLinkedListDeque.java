@@ -1,11 +1,11 @@
-public class DoubleLinkedListDeque<T> {
+public class DoubleLinkedListDeque {
     
     private class Node {
-        T data;
+        int data;
         Node next;
         Node prev;
         
-        Node(T data) {
+        Node(int data) {
             this.data = data;
             this.next = null;
             this.prev = null;
@@ -24,7 +24,7 @@ public class DoubleLinkedListDeque<T> {
     
     // Adiciona no início
     // Operação O(1)
-    public void inserirInicio(T item) {
+    public void inserirInicio(int item) {
         Node newNode = new Node(item);
         
         if (estaVazio()) {
@@ -39,7 +39,7 @@ public class DoubleLinkedListDeque<T> {
     
     // Adiciona no final
     // Operação O(1)
-    public void inserirFim(T item) {
+    public void inserirFim(int item) {
         Node newNode = new Node(item);
         
         if (estaVazio()) {
@@ -54,12 +54,12 @@ public class DoubleLinkedListDeque<T> {
     
     // Remove do início
     // Operação O(1)
-    public T removerInicio() {
+    public int removerInicio() {
         if (estaVazio()) {
             throw new RuntimeException("Deque vazio");
         }
         
-        T data = head.data;
+        int data = head.data;
         
         if (tamanho == 1) {
             head = tail = null;
@@ -73,12 +73,12 @@ public class DoubleLinkedListDeque<T> {
     
     // Remove do final
     // Operação O(1)
-    public T removerFim() {
+    public int removerFim() {
         if (estaVazio()) {
             throw new RuntimeException("Deque vazio");
         }
         
-        T data = tail.data;
+        int data = tail.data;
         
         if (tamanho == 1) {
             head = tail = null;
@@ -91,7 +91,7 @@ public class DoubleLinkedListDeque<T> {
     }
     
     // Operação O(1)
-    public T primeiro() {
+    public int primeiro() {
         if (estaVazio()) {
             throw new RuntimeException("Deque vazio");
         }
@@ -99,7 +99,7 @@ public class DoubleLinkedListDeque<T> {
     }
     
     // Operação O(1)
-    public T ultimo() {
+    public int ultimo() {
         if (estaVazio()) {
             throw new RuntimeException("Deque vazio");
         }
@@ -129,7 +129,7 @@ public class DoubleLinkedListDeque<T> {
     // Teste
     public static void main(String[] args) {
         
-        DoubleLinkedListDeque<Integer> deque = new DoubleLinkedListDeque<>();
+        DoubleLinkedListDeque deque = new DoubleLinkedListDeque();
         
         System.out.println(deque.estaVazio());
         System.out.println(deque.tamanho());
@@ -154,5 +154,5 @@ public class DoubleLinkedListDeque<T> {
         System.out.println(deque.tamanho());
         
         // Todas as operações são O(1) em uma deque com lista duplamente ligada
-        }
     }
+}
