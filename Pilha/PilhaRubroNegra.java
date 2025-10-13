@@ -35,11 +35,8 @@ public class PilhaRubroNegra {
     private void reduzCapacidade() {
     int elementos = tamPilhaVermelha + tamPilhaPreta;
 
-    if (capacidade > elementos && elementos <= capacidade / 3) {
+    if (capacidade > elementos && elementos == capacidade / 3) {
         int novaCapacidade = capacidade / 2;
-        if (novaCapacidade < 1) {
-            novaCapacidade = 1;
-        }
 
         Object[] novoArray = new Object[novaCapacidade];
 
@@ -108,6 +105,15 @@ public class PilhaRubroNegra {
         return valor;
     }
 
+    public void mostrar() {
+        for (int i = 0; i < capacidade; i++) {
+            if (array[i] != null) {
+                System.out.print(array[i] + " ");
+            }
+        }
+    }
+    
+
     // TESTE
     public static class Main {
         public static void main(String[] args) throws EPilhaVazia {
@@ -117,10 +123,14 @@ public class PilhaRubroNegra {
             pilha.pushPreto(10);
             pilha.pushPreto(20);
 
+            pilha.mostrar();
+
             System.out.println(pilha.topVermelho()); // 2
             System.out.println(pilha.topPreto());    // 20
             System.out.println(pilha.popVermelho()); // 2
             System.out.println(pilha.popPreto());    // 20
+
+            pilha.mostrar();
 
             pilha.pushVermelho(3);
             pilha.pushVermelho(4);
@@ -129,6 +139,8 @@ public class PilhaRubroNegra {
             pilha.pushPreto(40);
             System.out.println(pilha.topVermelho());
             System.out.println(pilha.topPreto());
+
+            pilha.mostrar(); // Imprime o estado atual da pilha
         }
     }
 }
