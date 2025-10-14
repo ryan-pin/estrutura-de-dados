@@ -35,7 +35,7 @@ public class PilhaRubroNegra {
     private void reduzCapacidade() {
     int elementos = tamPilhaVermelha + tamPilhaPreta;
 
-    if (capacidade > elementos && elementos == capacidade / 3) {
+    if (elementos == capacidade / 3) {
         int novaCapacidade = capacidade / 2;
 
         Object[] novoArray = new Object[novaCapacidade];
