@@ -69,7 +69,7 @@ public class FilaLinkedList {
     
 
     public boolean estaVazia() {
-        return head == null; // ou size == 0
+        return size == 0;
     }
     
     public int tamanho() {
