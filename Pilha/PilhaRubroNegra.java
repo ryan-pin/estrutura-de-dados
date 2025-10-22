@@ -35,7 +35,7 @@ public class PilhaRubroNegra {
     private void reduzCapacidade() {
     int elementos = tamPilhaVermelha + tamPilhaPreta;
 
-    if (elementos == capacidade / 3) {
+    if (elementos <= capacidade / 3) {
         int novaCapacidade = capacidade / 2;
 
         Object[] novoArray = new Object[novaCapacidade];
@@ -90,7 +90,8 @@ public class PilhaRubroNegra {
             throw new EPilhaVazia();
         }
         tamPilhaVermelha--;
-        int valor = (int) array[tamPilhaVermelha]; // conversao de tipo
+        int valor = (int) array[tamPilhaVermelha];
+        array[tamPilhaVermelha] = null;
         reduzCapacidade();
         return valor;
     }
@@ -101,13 +102,14 @@ public class PilhaRubroNegra {
         }
         int valor = (int) array[capacidade - tamPilhaPreta];
         tamPilhaPreta--;
+        array[capacidade - tamPilhaPreta - 1] = null;
         reduzCapacidade();
         return valor;
     }
 
     public void mostrar() {
         for (int i = 0; i < capacidade; i++) {
-            if (array[i] != null) {
+             {
                 System.out.print(array[i] + " ");
             }
         }
@@ -123,22 +125,28 @@ public class PilhaRubroNegra {
             pilha.pushPreto(10);
             pilha.pushPreto(20);
 
-            pilha.mostrar();
+            // pilha.mostrar();
 
-            System.out.println(pilha.topVermelho()); // 2
-            System.out.println(pilha.topPreto());    // 20
-            System.out.println(pilha.popVermelho()); // 2
-            System.out.println(pilha.popPreto());    // 20
+            // System.out.println(pilha.topVermelho()); // 2
+            // System.out.println(pilha.topPreto());    // 20
+            // System.out.println(pilha.popVermelho()); // 2
+            // System.out.println(pilha.popPreto());    // 20
 
-            pilha.mostrar();
+            // pilha.mostrar();
 
             pilha.pushVermelho(3);
             pilha.pushVermelho(4);
             pilha.pushVermelho(5);
             pilha.pushPreto(30);
             pilha.pushPreto(40);
-            System.out.println(pilha.topVermelho());
-            System.out.println(pilha.topPreto());
+            // System.out.println(pilha.topVermelho());
+            // System.out.println(pilha.topPreto());
+
+            pilha.popVermelho();
+            pilha.popVermelho();
+            pilha.popVermelho();
+            pilha.popPreto();
+            pilha.popPreto();
 
             pilha.mostrar(); // Imprime o estado atual da pilha
         }
