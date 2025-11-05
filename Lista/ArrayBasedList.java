@@ -25,7 +25,7 @@ public class ArrayBasedList {
     }
     
     // O(n)
-    public void insertAfter(int posicao, int elemento) {    
+    public void insertAfter(int posicao, int elemento) {
         if (size >= capacidade) {
             aumentarCapacidade();
         }
@@ -40,7 +40,7 @@ public class ArrayBasedList {
     }
     
     // O(n)
-    public void insertBefore(int posicao, int elemento) {      
+    public void insertBefore(int posicao, int elemento) {
         if (size >= capacidade) {
             aumentarCapacidade();
         }
@@ -112,6 +112,36 @@ public class ArrayBasedList {
         return array[size - 1];
     }
     
+    // Verifica se uma posição é a primeira - O(1)
+    public boolean isFirst(int posicao) {
+        if (isEmpty()) {
+            return false;
+        }
+        return posicao == 0;
+    }
+    
+    // Verifica se uma posição é a última - O(1)
+    public boolean isLast(int posicao) {
+        if (isEmpty()) {
+            return false;
+        }
+        return posicao == size - 1;
+    }
+    
+    // O(1)
+    public int replaceElement(int posicao, int novoElemento) {     
+        int elementoAntigo = array[posicao];
+        array[posicao] = novoElemento;
+        return elementoAntigo;
+    }
+    
+    // Troca elementos entre duas posições - O(1)
+    public void swapElements(int posicao1, int posicao2) {       
+        int temp = array[posicao1];
+        array[posicao1] = array[posicao2];
+        array[posicao2] = temp;
+    }
+    
     // Retorna a próxima posição - O(1)
     public int after(int posicao) {
         if (posicao < 0 || posicao >= size - 1) {
@@ -144,11 +174,10 @@ public class ArrayBasedList {
     }
     
     // Mostra todos os elementos - O(n)
-    public void mostrar() {      
+    public void mostrar() {     
         for (int i = 0; i < size; i++) {
             System.out.print(array[i] + " ");
         }
-
     }
     
     // Teste
