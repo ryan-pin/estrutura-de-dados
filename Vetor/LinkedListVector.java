@@ -13,10 +13,10 @@ public class LinkedListVector {
             this.prev = null;
         }
     }
-    
-    private Node head;  // Primeiro nó
-    private Node tail;  // Último nó
-    private int size;   // Tamanho atual
+
+    private Node head;
+    private Node tail;
+    private int size;
     
     public LinkedListVector() {
         this.head = null;
