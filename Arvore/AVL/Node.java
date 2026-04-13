@@ -1,3 +1,5 @@
+package AVL;
+
 public class Node {
     public Object value =  (Integer) null;
     public Node filhoD = null;
