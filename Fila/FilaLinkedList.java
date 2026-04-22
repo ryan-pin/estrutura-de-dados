@@ -1,5 +1,3 @@
-package Fila;
-
 public class FilaLinkedList {
     
     private class Node {

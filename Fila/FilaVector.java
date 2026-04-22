@@ -1,5 +1,3 @@
-package Fila;
-
 import java.util.Vector;
 
 public class FilaVector {
