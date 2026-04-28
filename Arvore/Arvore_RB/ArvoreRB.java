@@ -113,7 +113,7 @@ public class ArvoreRB {
 
                     // Sobe o problema para o avô
                     no = avo;
-                } 
+                }
                 // CASO 2 e 3:
                 // Tio preto ou nulo -> rotações
                 else {
@@ -135,7 +135,7 @@ public class ArvoreRB {
                     rotacaoSD(avo);
                 }
 
-            } 
+            }
             // Se o pai for filho da direita do avô, faz o espelho dos casos
             else {
 
@@ -149,7 +149,7 @@ public class ArvoreRB {
                     avo.setRubro(true);
 
                     no = avo;
-                } 
+                }
                 // CASO 2 e 3:
                 else {
                     // CASO TRIÂNGULO: no é filho esquerdo do pai
@@ -193,7 +193,7 @@ public class ArvoreRB {
         // Se no era raiz, o sucessor vira raiz
         if (no.getPai() == null) {
             this.raiz = sucessor;
-        } 
+        }
         // Senão, liga o sucessor ao pai antigo de no
         else if (no == no.getPai().getFilhoE()) {
             no.getPai().setFilhoE(sucessor);
@@ -226,7 +226,7 @@ public class ArvoreRB {
         // Se no era raiz, o sucessor vira raiz
         if (no.getPai() == null) {
             this.raiz = sucessor;
-        } 
+        }
         // Senão, liga o sucessor ao pai antigo de no
         else if (no == no.getPai().getFilhoE()) {
             no.getPai().setFilhoE(sucessor);
@@ -249,7 +249,6 @@ public class ArvoreRB {
             Emordem(n.getFilhoD(), s);
         }
     }
-
 
     // ALTURA DA ÁRVORE
     public int altura(Node no) {
@@ -276,13 +275,186 @@ public class ArvoreRB {
         return 1 + depth(no.getPai());
     }
 
+    public void removeRB(Object value) {
+
+        Node no = search(this.raiz, value);
+
+        if (no == null)
+            return;
+
+        deleteNode(no);
+    }
+
+    private void deleteNode(Node no) {
+
+        Node substituto;
+
+        // CASO: nó tem 2 filhos
+        if (no.getFilhoE() != null && no.getFilhoD() != null) {
+
+            // pega o sucessor (menor da direita)
+            Node aux = no.getFilhoD();
+            while (aux.getFilhoE() != null) {
+                aux = aux.getFilhoE();
+            }
+
+            // troca valores
+            no.setValue(aux.getValue());
+
+            // agora remove o sucessor
+            no = aux;
+        }
+
+        // Agora o nó tem no máximo 1 filho
+        substituto = (no.getFilhoE() != null) ? no.getFilhoE() : no.getFilhoD();
+
+        // Se o substituto não for null
+        if (substituto != null) {
+
+            // liga o substituto ao pai
+            substituto.setPai(no.getPai());
+
+            if (no.getPai() == null) {
+                this.raiz = substituto;
+            } else if (no == no.getPai().getFilhoE()) {
+                no.getPai().setFilhoE(substituto);
+            } else {
+                no.getPai().setFilhoD(substituto);
+            }
+
+            // Se o nó removido era preto, precisa corrigir
+            if (!no.isRubro()) {
+                fixDelete(substituto);
+            }
+
+        } else {
+            // Caso: nó folha
+
+            if (no.getPai() == null) {
+                this.raiz = null;
+            } else {
+
+                // Se era preto → duplo negro, precisa corrigir
+                if (!no.isRubro()) {
+                    fixDelete(no);
+                }
+
+                // remove do pai
+                if (no == no.getPai().getFilhoE()) {
+                    no.getPai().setFilhoE(null);
+                } else {
+                    no.getPai().setFilhoD(null);
+                }
+            }
+        }
+
+        size--;
+    }
+
+    private void fixDelete(Node no) {
+
+        while (no != raiz && (no == null || !no.isRubro())) {
+
+            Node pai = no.getPai();
+
+            // Se no é filho esquerdo
+            if (no == pai.getFilhoE()) {
+
+                Node irmao = pai.getFilhoD();
+
+                // CASO 1: irmão vermelho
+                if (irmao != null && irmao.isRubro()) {
+                    irmao.setRubro(false);
+                    pai.setRubro(true);
+                    rotacaoSE(pai);
+                    irmao = pai.getFilhoD();
+                }
+
+                // CASO 2: irmão preto com filhos pretos
+                if ((irmao.getFilhoE() == null || !irmao.getFilhoE().isRubro()) &&
+                        (irmao.getFilhoD() == null || !irmao.getFilhoD().isRubro())) {
+
+                    irmao.setRubro(true);
+                    no = pai;
+
+                } else {
+
+                    // CASO 3: irmão preto com filho esquerdo vermelho
+                    if (irmao.getFilhoD() == null || !irmao.getFilhoD().isRubro()) {
+
+                        if (irmao.getFilhoE() != null)
+                            irmao.getFilhoE().setRubro(false);
+
+                        irmao.setRubro(true);
+                        rotacaoSD(irmao);
+                        irmao = pai.getFilhoD();
+                    }
+
+                    // CASO 4: irmão preto com filho direito vermelho
+                    irmao.setRubro(pai.isRubro());
+                    pai.setRubro(false);
+
+                    if (irmao.getFilhoD() != null)
+                        irmao.getFilhoD().setRubro(false);
+
+                    rotacaoSE(pai);
+                    no = raiz;
+                }
+
+            } else {
+                // ESPERELHO (lado direito)
+
+                Node irmao = pai.getFilhoE();
+
+                if (irmao != null && irmao.isRubro()) {
+                    irmao.setRubro(false);
+                    pai.setRubro(true);
+                    rotacaoSD(pai);
+                    irmao = pai.getFilhoE();
+                }
+
+                if ((irmao.getFilhoE() == null || !irmao.getFilhoE().isRubro()) &&
+                        (irmao.getFilhoD() == null || !irmao.getFilhoD().isRubro())) {
+
+                    irmao.setRubro(true);
+                    no = pai;
+
+                } else {
+
+                    if (irmao.getFilhoE() == null || !irmao.getFilhoE().isRubro()) {
+
+                        if (irmao.getFilhoD() != null)
+                            irmao.getFilhoD().setRubro(false);
+
+                        irmao.setRubro(true);
+                        rotacaoSE(irmao);
+                        irmao = pai.getFilhoE();
+                    }
+
+                    irmao.setRubro(pai.isRubro());
+                    pai.setRubro(false);
+
+                    if (irmao.getFilhoE() != null)
+                        irmao.getFilhoE().setRubro(false);
+
+                    rotacaoSD(pai);
+                    no = raiz;
+                }
+            }
+        }
+
+        if (no != null)
+            no.setRubro(false);
+    }
+
     // IMPRESSÃO SIMPLES DA ÁRVORE
     public void printTree(Node n, String prefix, boolean isLeft) {
         if (n != null) {
             if (n.getPai() == null) {
                 System.out.println(prefix + n.getValue() + (n.isRubro() ? " (R)" : " (P)"));
             } else {
-                System.out.println(prefix + (isLeft ? "├──E " : "└──D ") + n.getValue() + (n.isRubro() ? " (R)" : " (P)"));
+                System.out.println(
+                        prefix + (isLeft ? "├──E " : "└──D ") + n.getValue() + (n.isRubro() ? " (R)" : " (P)"));
             }
 
             printTree(n.getFilhoE(), prefix + (isLeft ? "│   " : "    "), true);
