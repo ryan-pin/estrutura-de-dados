@@ -470,25 +470,41 @@ public class avl {
             }
     }
 
-    public void removeCalculateFB(Node no){
-        if(isRoot(no)){
-            return;
-        }
-        
-        if(no == no.getPai().getFilhoE()){ 
-            no.getPai().setFB(no.getPai().getFB() - 1);
-        }else{
-            no.getPai().setFB(no.getPai().getFB() + 1);
-        }      
-
-        if(no.getPai().getFB() == -2 || no.getPai().getFB() == 2){ 
-            balancear(no.getPai());
-            return;
-        } else if(no.getPai().getFB() != 0){ 
-            return;
-        }
-
+    public void removeCalculateFB(Node no) {
+    if (no == null || no.getPai() == null) {
+        return;
     }
+
+    Node pai = no.getPai();
+
+    // Atualiza o FB do pai
+    if (no == pai.getFilhoE()) {
+        pai.setFB(pai.getFB() - 1);
+    } else {
+        pai.setFB(pai.getFB() + 1);
+    }
+
+    // Caso 1: FB virou 0, altura diminuiu, sobe
+    if (pai.getFB() == 0) {
+        removeCalculateFB(pai);
+        return;
+    }
+
+    // Caso 2: FB ficou 1, ainda balanceado, para
+    if (pai.getFB() == 1 || pai.getFB() == -1) {
+        return;
+    }
+
+    // Caso 3: FB virou 2, desbalanceou, rotaciona
+    if (pai.getFB() == 2 || pai.getFB() == -2) {
+        balancear(pai);
+
+        // ⚠️ após rotação, pode precisar continuar subindo
+        if (pai.getPai() != null) {
+            removeCalculateFB(pai);
+        }
+    }
+}
 
      public static void main(String[] args) {
         AVL.avl arvore = new AVL.avl();
