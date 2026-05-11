@@ -447,20 +447,72 @@ public class ArvoreRB {
             no.setRubro(false);
     }
 
-    // IMPRESSÃO SIMPLES DA ÁRVORE
-    public void printTree(Node n, String prefix, boolean isLeft) {
-        if (n != null) {
-            if (n.getPai() == null) {
-                System.out.println(prefix + n.getValue() + (n.isRubro() ? " (R)" : " (P)"));
+    // IMPRESSÃO PADRÃO DA ÁRVORE
+public void mostrarArvore() {
+
+    if (this.raiz == null) {
+        System.out.println("(árvore vazia)");
+        return;
+    }
+
+    int altura = altura(this.raiz);
+
+    // quantidade máxima de nós no último nível
+    int maxNodes = (int) Math.pow(2, altura + 1);
+
+    // largura usada para espaçamento
+    int largura = maxNodes * 5;
+
+    ArrayList<Node> nivelAtual = new ArrayList<>();
+    nivelAtual.add(this.raiz);
+
+    for (int nivel = 0; nivel <= altura; nivel++) {
+
+        ArrayList<Node> proximoNivel = new ArrayList<>();
+
+        int espacoInicial = largura / (int) Math.pow(2, nivel + 1);
+        int espacoEntre = largura / (int) Math.pow(2, nivel);
+
+        imprimirEspacos(espacoInicial);
+
+        for (Node no : nivelAtual) {
+
+            if (no != null) {
+
+                // valor + cor entre parênteses
+                String cor = no.isRubro() ? "(R)" : "(B)";
+                System.out.print(no.getValue() + cor);
+
+                proximoNivel.add(no.getFilhoE());
+                proximoNivel.add(no.getFilhoD());
+
             } else {
-                System.out.println(
-                        prefix + (isLeft ? "├──E " : "└──D ") + n.getValue() + (n.isRubro() ? " (R)" : " (P)"));
+
+                System.out.print(" ");
+
+                proximoNivel.add(null);
+                proximoNivel.add(null);
             }
 
-            printTree(n.getFilhoE(), prefix + (isLeft ? "│   " : "    "), true);
-            printTree(n.getFilhoD(), prefix + (isLeft ? "│   " : "    "), false);
+            imprimirEspacos(espacoEntre);
         }
+
+        System.out.println();
+        System.out.println();
+
+        nivelAtual = proximoNivel;
     }
+}
+
+// -------------------------------------------------------------
+// AUXILIAR PARA ESPAÇOS
+// -------------------------------------------------------------
+
+private void imprimirEspacos(int qtd) {
+    for (int i = 0; i < qtd; i++) {
+        System.out.print(" ");
+    }
+}
 
     // -------------------------------------------------------------
     // MOSTRAR A ÁRVORE EM ORDEM
@@ -475,4 +527,24 @@ public class ArvoreRB {
         }
         System.out.println();
     }
+
+    public static void main(String[] args) {
+        ArvoreRB arvore = new ArvoreRB();
+
+        int[] valores = {10, 20, 30, 15, 25};
+        for (int valor : valores) {
+            arvore.insertRB(valor);
+        }
+
+        System.out.println("Árvore após inserções:");
+        arvore.mostrarArvore();
+
+        arvore.removeRB(20);
+        arvore.removeRB(10);
+
+        System.out.println("\nÁrvore após remoções:");
+        arvore.mostrarArvore();
+    }
+
+    
 }
